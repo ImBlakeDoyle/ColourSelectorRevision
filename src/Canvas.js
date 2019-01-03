@@ -10,7 +10,8 @@ class Canvas extends Component {
         hex: "#f4424b",
         coords: null,
         height: 400,
-        width: 400
+        width: 400,
+        drawSize: 3
     };
 
     constructor(props) {
@@ -27,7 +28,7 @@ class Canvas extends Component {
         this.context = this.canvasRef.current.getContext('2d');
         this.context.strokeStyle = this.state.hex;
         this.context.lineJoin = "round";
-        this.context.lineWidth = 3;
+        this.context.lineWidth = this.state.drawSize;
     }
 
     componentDidMount() {
@@ -72,8 +73,12 @@ class Canvas extends Component {
         this.context.clearRect(0,0, this.context.canvas.width, this.context.canvas.height);
     }
 
+    onBrushSizeChange = (event) => {
+        this.setState({ drawSize: this.event.target.value });
+    }
+
     render() {
-        const { hex, height, width } = this.state;
+        const { hex, height, width, drawSize } = this.state;
 
         return (
             <div>
@@ -82,7 +87,10 @@ class Canvas extends Component {
                     onColourSelectorChange={this.onColourSelectorChange}
                     hex={hex}
                     />
+                    <input type="number" onBrushSizeChange={this.onBrushSizeChange}/>
+                    <div>
                         <button onClick={this.onClearMouseDown}>Clear</button>
+                    </div>
                 </div>
                 <canvas
                     ref={this.canvasRef}
