@@ -68,6 +68,10 @@ class Canvas extends Component {
         this.setState({ coords: [x,y]});
     }
 
+    onClearMouseDown = (event) => {
+        this.context.clearRect(0,0, this.context.canvas.width, this.context.canvas.height);
+    }
+
     render() {
         const { hex, height, width } = this.state;
 
@@ -78,6 +82,7 @@ class Canvas extends Component {
                     onColourSelectorChange={this.onColourSelectorChange}
                     hex={hex}
                     />
+                        <button onClick={this.onClearMouseDown}>Clear</button>
                 </div>
                 <canvas
                     ref={this.canvasRef}
