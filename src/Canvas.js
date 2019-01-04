@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ColourSelector from "./ColourSelector";
+import LineSize from "./LineSize";
 
 const styles = {
     border: "6px solid black"
@@ -11,7 +12,7 @@ class Canvas extends Component {
         coords: null,
         height: 400,
         width: 400,
-        drawSize: 3
+        brushSize: 3
     };
 
     constructor(props) {
@@ -28,7 +29,7 @@ class Canvas extends Component {
         this.context = this.canvasRef.current.getContext('2d');
         this.context.strokeStyle = this.state.hex;
         this.context.lineJoin = "round";
-        this.context.lineWidth = this.state.drawSize;
+        this.context.lineWidth = this.state.brushSize;
     }
 
     componentDidMount() {
@@ -73,12 +74,12 @@ class Canvas extends Component {
         this.context.clearRect(0,0, this.context.canvas.width, this.context.canvas.height);
     }
 
-    onBrushSizeChange = (event) => {
-        this.setState({ drawSize: this.event.target.value });
+    onBrushSizeChange = (brushSize) => {
+        this.setState({ brushSize });
     }
 
     render() {
-        const { hex, height, width, drawSize } = this.state;
+        const { hex, height, width, brushSize } = this.state;
 
         return (
             <div>
@@ -87,7 +88,10 @@ class Canvas extends Component {
                     onColourSelectorChange={this.onColourSelectorChange}
                     hex={hex}
                     />
-                    <input type="number" onBrushSizeChange={this.onBrushSizeChange}/>
+                    <LineSize
+                        brushSize={brushSize}
+                        onBrushSizeChange={this.onBrushSizeChange}
+                    />
                     <div>
                         <button onClick={this.onClearMouseDown}>Clear</button>
                     </div>
